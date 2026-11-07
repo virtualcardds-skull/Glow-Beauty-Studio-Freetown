@@ -176,6 +176,8 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 .svc img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--line)}
 .svc .sb{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
 .svc .dis{color:var(--gold);font-size:14px;font-weight:600}
+.svcgrid{grid-template-columns:repeat(auto-fill,minmax(min(100%,310px),1fr))}
+.gal{grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
 </style>
 </head>
 <body>
@@ -212,7 +214,7 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 
 <section id="gallery" class="pub"><div class="wrap">
   <h2>Gallery</h2><p class="sub">A look at the styles our clients book most.</p>
-  <div class="gal"><figure><img src="images/gallery-1.jpg" alt="Bridal glam" loading="lazy"><figcaption>Bridal glam</figcaption></figure><figure><img src="images/gallery-2.jpg" alt="Gele and styling" loading="lazy"><figcaption>Gele and styling</figcaption></figure><figure><img src="images/gallery-3.jpg" alt="Party makeup" loading="lazy"><figcaption>Party makeup</figcaption></figure><figure><img src="images/gallery-4.jpg" alt="Gel nails" loading="lazy"><figcaption>Gel nails</figcaption></figure><figure><img src="images/gallery-5.jpg" alt="Graduation look" loading="lazy"><figcaption>Graduation look</figcaption></figure><figure><img src="images/gallery-6.jpg" alt="December party" loading="lazy"><figcaption>December party</figcaption></figure></div>
+  <div class="gal" id="galGrid"><figure><img src="images/gallery-1.jpg" alt="Bridal glam" loading="lazy"><figcaption>Bridal glam</figcaption></figure><figure><img src="images/gallery-2.jpg" alt="Gele and styling" loading="lazy"><figcaption>Gele and styling</figcaption></figure><figure><img src="images/gallery-3.jpg" alt="Party makeup" loading="lazy"><figcaption>Party makeup</figcaption></figure><figure><img src="images/gallery-4.jpg" alt="Gel nails" loading="lazy"><figcaption>Gel nails</figcaption></figure><figure><img src="images/gallery-5.jpg" alt="Graduation look" loading="lazy"><figcaption>Graduation look</figcaption></figure><figure><img src="images/gallery-6.jpg" alt="December party" loading="lazy"><figcaption>December party</figcaption></figure></div>
 </div></section>
 
 <section id="how" class="pub"><div class="wrap">
@@ -469,6 +471,7 @@ function renderSite(){
 (function(){const b=$("toTop");$("yr").textContent=new Date().getFullYear();
  const t=()=>{b.hidden=scrollY<400};addEventListener("scroll",t,{passive:true});t();
  b.onclick=()=>scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"});})();
+
 const _rc=renderCampaign;renderCampaign=function(){_rc();renderSite()};
 renderCampaign();renderBookings();renderTasks();
 </script>
