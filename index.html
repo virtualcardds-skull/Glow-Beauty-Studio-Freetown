@@ -81,7 +81,7 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 .links{display:flex;gap:16px}.links a{color:#e9d3df;text-decoration:none;font-weight:600}.links a:hover{color:#fff}
 .links a{padding:6px 2px;border-bottom:2px solid transparent}
 .links a.on{color:#fff;border-color:#f1cf86}
-.menu{display:none;background:none;border:1px solid #e9d3df;color:#fff;border-radius:8px;padding:6px 12px;font:600 14px inherit;cursor:pointer}
+.menu{display:none;line-height:0;background:none;border:1px solid #e9d3df;color:#fff;border-radius:8px;padding:8px 10px;font:600 14px inherit;cursor:pointer}
 @media(max-width:760px){.menu{display:block}
 .links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--plum);flex-direction:column;gap:0;padding:6px 20px 14px;border-top:1px solid #5a2f48}
 .links.open{display:flex}.links a{padding:12px 0;border-bottom:1px solid #5a2f48}}
@@ -178,13 +178,32 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 .svc .dis{color:var(--gold);font-size:14px;font-weight:600}
 .svcgrid{grid-template-columns:repeat(auto-fill,minmax(min(100%,310px),1fr))}
 .gal{grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+.cov-top{display:grid;grid-template-columns:150px 1fr;gap:22px;align-items:center;margin-bottom:16px}
+@media(max-width:560px){.cov-top{grid-template-columns:1fr;justify-items:center;text-align:center}}
+.ring{position:relative;width:150px;height:150px}.ring svg{width:100%;height:100%}
+.rt{fill:none;stroke:var(--line);stroke-width:12}.ra{fill:none;stroke:var(--rose);stroke-width:12;stroke-linecap:round;stroke-dasharray:0 327;transition:stroke-dasharray .6s}
+.rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rc b{font:700 24px Georgia,serif;line-height:1}.rc span{font-size:12px;color:var(--mute)}
+.goal{font:700 19px/1.3 Georgia,serif;margin:0 0 12px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.kpis div{background:var(--bg);border-radius:8px;padding:10px 12px;text-align:left}
+.kpis b{display:block;font:700 20px Georgia,serif}.kpis span{font-size:12px;color:var(--mute)}
+@media(max-width:560px){.kpis{grid-template-columns:1fr 1fr 1fr}.kpis b{font-size:17px}}
+.cov-next{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;background:var(--gold-bg);color:var(--ink);border-radius:8px;padding:10px 14px;margin-bottom:16px}
+.cov-next span{font-weight:700;color:var(--gold)}
+.cov-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 22px;margin:0 0 14px}
+.cov-facts dt{font-weight:700;color:var(--rose);font-size:14px}.cov-facts dd{margin:0;color:var(--mute)}
+.cov input[type=time]{width:auto;padding:2px 6px;display:inline-block}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips span{padding:4px 12px;border-radius:99px;font-size:13px;font-weight:600;border:1px solid var(--line)}
+.chips .ok{color:var(--ok);border-color:var(--ok)}.chips .no{color:var(--warn);border-color:var(--warn)}
 </style>
 </head>
 <body>
 <header class="site"><div class="wrap bar2">
   <a class="brand" href="#home">Glow Beauty Studio</a>
   <div class="links" id="links"><a href="#home">Home</a><a href="#about">About us</a><a href="#services">Services</a><a href="#offer">Offer</a><a href="#gallery">Gallery</a><a href="#hq">Studio HQ</a></div>
-  <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="links">Menu</button>
+  <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="links" aria-label="Menu"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path id="menuIcon" d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></button>
   <a class="bk btn sm" id="topBook" href="#hq">Book now</a>
 </div></header>
 
@@ -238,19 +257,30 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 <main>
 <!-- CAMPAIGN -->
 <section id="campaign">
-  <div class="card overview"><h2>Campaign overview</h2>
-    <div class="ov-grid">
-      <div><h3>Objective</h3><p>Fill the December diary with bookings made through WhatsApp.</p></div>
-      <div><h3>Audience</h3><p>Women aged 20–40 in Freetown preparing for weddings, graduations and December parties.</p></div>
-      <div><h3>Offer</h3><p>15% off any December appointment booked before 30 November.</p></div>
-      <div><h3>Challenge</h3><p>Social pages are quiet and inconsistent, and customers can’t find prices or how to book.</p></div>
+  <div class="card cov"><h2>Campaign overview</h2>
+    <div class="cov-top">
+      <div class="ring" role="img" aria-label="Booking income progress toward target">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="rt" cx="60" cy="60" r="52"/><circle class="ra" id="ringArc" cx="60" cy="60" r="52" transform="rotate(-90 60 60)"/></svg>
+        <div class="rc"><b id="ringNum">0</b><span id="ringOf"></span></div>
+      </div>
+      <div class="cov-main">
+        <p class="goal">Fill the December diary with bookings made through WhatsApp.</p>
+        <div class="kpis">
+          <div><b id="kDays">–</b><span>days left for the 15% offer</span></div>
+          <div><b id="kTasks">–</b><span>tasks done</span></div>
+          <div><b id="kInc">–</b><span>active bookings</span></div>
+        </div>
+        <label for="tgt">Booking target (Le)</label><input id="tgt" type="number" min="100" step="100" style="max-width:150px">
+      </div>
     </div>
-    <div class="ov-line">
-      <div><b>22 Oct</b><span>Campaign submitted<br><label for="dlTime" class="inl">by</label> <input id="dlTime" type="time" aria-label="Submission time"></span></div>
-      <div><b>30 Nov</b><span>Offer closes</span></div>
-      <div><b>1–31 Dec</b><span>Appointments delivered</span></div>
-    </div>
-    <p class="deliv"><strong>Deliverables:</strong> the offer, at least two services, the WhatsApp number and a “Book now” button.</p>
+    <div class="cov-next"><span>Next task</span><b id="nextTask">–</b></div>
+    <dl class="cov-facts">
+      <div><dt>Next appointment</dt><dd id="fNext">–</dd></div>
+      <div><dt>Most booked service</dt><dd id="fTop">–</dd></div>
+      <div><dt>To confirm on WhatsApp</dt><dd id="fPend">–</dd></div>
+      <div><dt>Deadline</dt><dd>Submit on Thursday 22 October by <input id="dlTime" type="time" aria-label="Submission time"></dd></div>
+    </dl>
+    <div class="chips" id="mustChips" aria-label="Must include"></div>
   </div>
 
   <div class="grid">
@@ -461,8 +491,9 @@ function renderSite(){
 
 // Header nav: mobile menu and active link
 (function(){const L=$("links"),B=$("menuBtn");
- B.onclick=()=>{const o=L.classList.toggle("open");B.setAttribute("aria-expanded",o);B.textContent=o?"Close":"Menu"};
- L.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{L.classList.remove("open");B.setAttribute("aria-expanded",false);B.textContent="Menu"}));
+ const ic=o=>{B.setAttribute("aria-expanded",o);B.setAttribute("aria-label",o?"Close menu":"Menu");$("menuIcon").setAttribute("d",o?"M5 5l14 14M19 5L5 19":"M3 6h18M3 12h18M3 18h18")};
+ B.onclick=()=>ic(L.classList.toggle("open"));
+ L.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{L.classList.remove("open");ic(false)}));
  const ids=["home","about","services","offer","gallery","hq"],links=[...L.querySelectorAll("a")];
  const mark=()=>{let cur="home";ids.forEach(id=>{if($(id).getBoundingClientRect().top<=120)cur=id});links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+cur))};
  addEventListener("scroll",mark,{passive:true});mark();})();
@@ -472,7 +503,32 @@ function renderSite(){
  const t=()=>{b.hidden=scrollY<400};addEventListener("scroll",t,{passive:true});t();
  b.onclick=()=>scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"});})();
 
+
+// Campaign overview (live)
+function renderOverview(){
+ if(!$("ringArc"))return;
+ const tg=S.targetLe||10000,act=S.bookings.filter(b=>b.status!=="Cancelled"),n=act.length,inc=act.reduce((a,b)=>a+priceOf(b),0);
+ $("tgt").value=tg;$("ringNum").textContent=le(inc);$("ringOf").textContent="of "+le(tg);
+ $("ringArc").style.strokeDasharray=(Math.min(1,inc/tg)*326.7)+" 327";
+ const dl=Math.ceil((new Date("2026-11-30")-new Date(todayISO))/864e5);
+ $("kDays").textContent=dl>0?dl:"Closed";
+ const T=S.tasks,dn=T.filter(t=>t.x).length;$("kTasks").textContent=dn+"/"+T.length;
+ $("kInc").textContent=n;
+ const nx=T.filter(t=>!t.x).sort((a,b)=>(a.d||"9").localeCompare(b.d||"9"))[0];
+ $("nextTask").textContent=nx?nx.t+(nx.d?" (due "+nx.d+")":""):"All tasks done";
+ const up=act.filter(b=>b.date>=todayISO).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))[0];
+ $("fNext").textContent=up?`${up.name}, ${up.svc}, ${up.date} at ${up.time}`:"No upcoming bookings yet";
+ const cnt={};act.forEach(b=>cnt[b.svc]=(cnt[b.svc]||0)+1);const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
+ $("fTop").textContent=top?`${top[0]} (${top[1]} ${top[1]===1?"booking":"bookings"})`:"No bookings yet";
+ const pd=S.bookings.filter(b=>b.status==="Pending");
+ $("fPend").textContent=pd.length?`${pd.length} ${pd.length===1?"client":"clients"}: ${pd.slice(0,3).map(b=>b.name).join(", ")}${pd.length>3?"…":""}`:"Nobody waiting";
+ const c=[["Offer: 15% off December",true],[S.services.length+" services",S.services.length>=2],["WhatsApp number",waOK()],["“Book now” button",waOK()],["Deadline time set",!!S.dlTime]];
+ $("mustChips").innerHTML=c.map(x=>`<span class="${x[1]?"ok":"no"}">${x[1]?"✓":"!"} ${x[0]}</span>`).join("");
+}
+$("tgt").onchange=e=>{S.targetLe=Math.max(100,+e.target.value||10000);save();renderOverview()};
 const _rc=renderCampaign;renderCampaign=function(){_rc();renderSite()};
+{const a=renderCampaign,b=renderBookings,t=renderTasks;
+renderCampaign=function(){a();renderOverview()};renderBookings=function(){b();renderOverview()};renderTasks=function(){t();renderOverview()};}
 renderCampaign();renderBookings();renderTasks();
 </script>
 </body>
