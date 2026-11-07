@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glow Beauty Studio – Festive Campaign HQ</title>
+<style>
+:root{--plum:#3b1a2e;--rose:#c94f6d;--gold:#b8801f;--gold-bg:#f6e6c4;--bg:#faf5f8;--card:#fff;--ink:#2a1623;--mute:#7a6573;--line:#e8dce3;--ok:#2f7a4f;--warn:#b3541e;--r:10px}
+@media(prefers-color-scheme:dark){:root{--bg:#1e1019;--card:#2b1824;--ink:#f6ecf1;--mute:#b79fae;--line:#4a2f40;--plum:#120911;--gold:#e8b85a;--gold-bg:#4a3612;--ok:#6ccb94;--warn:#f0985f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Avenir Next","Segoe UI",system-ui,sans-serif}
+header{background:var(--plum);color:#fff;padding:28px 20px 0}
+.wrap{max-width:1000px;margin:0 auto}
+h1{font:700 clamp(26px,5vw,40px)/1.1 Georgia,"Times New Roman",serif;margin:0 0 6px;letter-spacing:-.5px}
+header p{margin:0 0 18px;color:#e9d3df;max-width:60ch}
+.offer-pill{display:inline-block;background:var(--gold-bg);color:var(--gold);font-weight:700;padding:4px 12px;border-radius:99px;margin-bottom:12px}
+nav{display:flex;gap:4px;overflow-x:auto}
+nav button{background:none;border:0;color:#d8bfcc;font:600 15px inherit;padding:12px 18px;cursor:pointer;border-radius:var(--r) var(--r) 0 0;white-space:nowrap}
+nav button[aria-selected=true]{background:var(--bg);color:var(--plum)}
+@media(prefers-color-scheme:dark){nav button[aria-selected=true]{color:var(--ink)}}
+
+section[hidden]{display:none}
+h2{font:700 21px Georgia,serif;margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:18px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr 1fr}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:600;font-size:13px}
+.scroll{overflow-x:auto}
+label{display:block;font-size:13px;font-weight:600;color:var(--mute);margin-bottom:3px}
+input,select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+input:focus,select:focus,button:focus-visible,a:focus-visible{outline:2px solid var(--rose);outline-offset:1px}
+.form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));align-items:end}
+.btn{background:var(--rose);color:#fff;border:0;border-radius:8px;padding:10px 16px;font:700 15px inherit;cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
+.btn.ghost{background:none;color:var(--rose);border:1px solid var(--rose)}
+.btn.sm{padding:5px 10px;font-size:13px}
+.check{list-style:none;padding:0;margin:0}
+.check li{padding:7px 0;border-bottom:1px solid var(--line);display:flex;gap:10px}
+.check .m{font-weight:700;width:22px}
+.ok .m{color:var(--ok)}.no .m{color:var(--warn)}
+.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:18px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.stat b{display:block;font:700 26px Georgia,serif}
+.stat span{color:var(--mute);font-size:13px}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700;background:var(--gold-bg);color:var(--gold)}
+.tag.none{background:var(--line);color:var(--mute)}
+.warn{color:var(--warn);font-size:13px;font-weight:600}
+.post{background:var(--plum);color:#fff;border-radius:var(--r);padding:22px}
+.post h3{font:700 26px/1.15 Georgia,serif;margin:0 0 10px}
+.post .big{font:700 34px Georgia,serif;color:#f1cf86}
+.post ul{padding-left:18px;margin:10px 0 16px}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0 16px}
+.bar i{display:block;height:100%;background:var(--ok);transition:width .3s}
+.task{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.task input[type=checkbox]{width:20px;height:20px;flex:none}
+.task.done .t{text-decoration:line-through;color:var(--mute)}
+.task .t{flex:1}
+.task small{display:block;color:var(--mute)}
+.late{color:var(--warn);font-weight:700}
+.x{background:none;border:0;color:var(--mute);cursor:pointer;font-size:18px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.empty{color:var(--mute);padding:14px 0}
+.overview h3{font:700 14px "Avenir Next","Segoe UI",sans-serif;margin:0 0 4px;color:var(--rose)}
+.overview p{margin:0}
+.ov-grid{display:grid;gap:18px 28px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-bottom:18px}
+.ov-line{display:grid;grid-template-columns:repeat(3,1fr);border-top:3px solid var(--plum);margin-top:6px}
+.ov-line>div{padding:12px 12px 0 0;position:relative}
+.ov-line>div:before{content:"";position:absolute;top:-9px;left:0;width:15px;height:15px;border-radius:50%;background:var(--gold);border:3px solid var(--card)}
+.ov-line b{display:block;font:700 20px Georgia,serif;padding-top:6px}
+.ov-line span{color:var(--mute);font-size:13px}
+.ov-line input{width:auto;padding:2px 6px;font-size:13px}
+.inl{display:inline;font-size:13px}
+.deliv{margin-top:16px!important;color:var(--mute);font-size:14px}
+@media(max-width:560px){.ov-line{grid-template-columns:1fr}.ov-line>div{padding-bottom:12px}}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+header.site{padding:0;position:sticky;top:0;z-index:20}
+.bar2{display:flex;align-items:center;gap:18px;padding:12px 20px}
+.brand{font:700 20px Georgia,serif;color:#fff;text-decoration:none;margin-right:auto}
+.links{display:flex;gap:16px}.links a{color:#e9d3df;text-decoration:none;font-weight:600}.links a:hover{color:#fff}
+.links a{padding:6px 2px;border-bottom:2px solid transparent}
+.links a.on{color:#fff;border-color:#f1cf86}
+.menu{display:none;background:none;border:1px solid #e9d3df;color:#fff;border-radius:8px;padding:6px 12px;font:600 14px inherit;cursor:pointer}
+@media(max-width:760px){.menu{display:block}
+.links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--plum);flex-direction:column;gap:0;padding:6px 20px 14px;border-top:1px solid #5a2f48}
+.links.open{display:flex}.links a{padding:12px 0;border-bottom:1px solid #5a2f48}}
+.hero{background:var(--plum);color:#fff;padding:56px 20px 64px}
+.hero-in{display:grid;gap:32px;grid-template-columns:1.4fr 1fr;align-items:center}
+@media(max-width:800px){.hero-in{grid-template-columns:1fr}}
+.eyebrow{color:#f1cf86;font-weight:600;margin:0 0 10px}
+.lead{font-size:18px;color:#e9d3df;max-width:52ch;margin:0 0 22px}
+.btn.big{padding:13px 24px;font-size:17px}
+.btn.light{color:#fff;border-color:#fff}
+.offerbox{background:#fff;color:var(--ink);border-radius:14px;padding:26px;border-top:6px solid var(--gold)}
+@media(prefers-color-scheme:dark){.offerbox{background:var(--card)}}
+.offerbox span{color:var(--mute);font-weight:600}
+.offerbox b{display:block;font:700 54px/1.1 Georgia,serif;color:var(--rose)}
+.offerbox .days{color:var(--gold);font-weight:700;margin-top:8px}
+.pub{padding:52px 20px}.pub.alt{background:var(--card);border-block:1px solid var(--line)}
+.sub{color:var(--mute);margin:0 0 22px;max-width:60ch}
+.svcgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:6px}
+.svc b{font:700 18px Georgia,serif}.svc .pr{font-size:20px;font-weight:700;color:var(--rose)}
+.svc s{color:var(--mute);font-size:13px}.svc .btn{margin-top:auto}
+.offer-in{display:grid;gap:24px;grid-template-columns:1.2fr 1fr;align-items:center}
+@media(max-width:800px){.offer-in{grid-template-columns:1fr}}
+.terms{margin:0;padding-left:20px}.terms li{padding:3px 0}
+.steps{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));padding:0;list-style:none;counter-reset:s;margin:0 0 24px}
+.steps li{counter-increment:s;border-left:3px solid var(--gold);padding-left:14px}
+.steps li:before{content:counter(s);font:700 26px Georgia,serif;color:var(--rose)}
+.steps b{display:block}.steps span{color:var(--mute)}
+.hq{background:var(--bg);padding:52px 20px 20px;border-top:6px solid var(--plum)}
+.hqh{font-size:28px;margin-bottom:6px}
+.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:2px solid var(--line)}
+.tabs button{background:none;border:0;color:var(--mute);font:600 15px inherit;padding:12px 18px;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected=true]{color:var(--rose);border-color:var(--rose)}
+#hq main{padding:20px 0 40px}
+.foot{background:var(--plum);color:#e9d3df;padding:22px 20px}
+.foot .wrap{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}.foot a{color:#f1cf86}
+.car{position:relative;overflow:hidden}
+.track{display:flex;transition:transform .6s ease}
+.slide{min-width:100%;padding:56px 20px 76px;color:#fff;background:var(--bg1,#3b1a2e)}
+.s1{--bg1:#3b1a2e}.s2{--bg1:#6f1f3d}.s3{--bg1:#1e3a3a}
+.sl-in{display:grid;gap:32px;grid-template-columns:1.3fr 1fr;align-items:center;min-height:300px}
+.art svg{width:100%;max-width:300px;margin:auto;display:block}
+@media(max-width:800px){.sl-in{grid-template-columns:1fr}.art{display:none}}
+.arr{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.2);color:#fff;font-size:26px;cursor:pointer}
+.arr:hover{background:rgba(255,255,255,.35)}.prev{left:12px}.next{right:12px}
+.dots{position:absolute;bottom:18px;left:0;right:0;display:flex;gap:10px;justify-content:center}
+.dots button{width:12px;height:12px;border-radius:50%;border:2px solid #fff;background:none;padding:0;cursor:pointer}
+.dots button[aria-current=true]{background:#f1cf86;border-color:#f1cf86}
+.slide .days{color:#f1cf86}
+.about{display:grid;gap:32px;grid-template-columns:1.3fr 1fr;align-items:center}
+@media(max-width:800px){.about{grid-template-columns:1fr}}
+.facts{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.facts li{border-left:3px solid var(--gold);padding-left:14px}.facts b{display:block;font:700 18px Georgia,serif}.facts span{color:var(--mute)}
+.gal{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.gal figure{margin:0;background:var(--c);color:#f1cf86;border-radius:var(--r);aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.gal svg{width:56px}.gal figcaption{color:#fff;font-weight:600}
+.slide{position:relative;padding:84px 20px 92px}
+.slide img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slide:after{content:"";position:absolute;inset:0;background:rgba(25,8,20,.58)}
+.sl-in{position:relative;z-index:1;grid-template-columns:1fr!important;min-height:260px}
+.sl-in>div{max-width:620px}
+.aboutimg{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);margin-bottom:16px;display:block}
+.gal figure{position:relative;overflow:hidden;display:block;background:var(--line)}
+.gal img{width:100%;height:100%;object-fit:cover;display:block}
+.gal figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 14px 10px;background:linear-gradient(transparent,rgba(25,8,20,.75))}
+.foot{padding:34px 20px 18px}
+.foot-in{align-items:flex-start}
+.foot .fb{font:700 20px Georgia,serif;color:#fff}
+.foot p{margin:6px 0;max-width:38ch}
+.fl{display:flex;flex-wrap:wrap;gap:6px 18px}.fl a{text-decoration:none;color:#f1cf86}.fl a:hover{text-decoration:underline}
+.foot .copy{flex-basis:100%;max-width:none;border-top:1px solid #5a2f48;margin-top:14px;padding-top:14px;font-size:14px}
+.totop{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:46px;height:46px;border-radius:50%;border:0;background:var(--rose);color:#fff;font-size:22px;font-weight:700;cursor:pointer;z-index:30;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.totop:hover{background:var(--gold)}
+/* Responsive full-screen banner */
+.hero{padding:0!important}
+:root{--hh:64px}
+.slide{display:flex;align-items:center;padding:56px 20px 70px;min-height:clamp(440px,calc(100vh - var(--hh)),960px);min-height:clamp(440px,calc(100svh - var(--hh)),960px)}
+.slide>.sl-in{width:100%;min-height:0}
+.slide h1,.slide h2{font:700 clamp(28px,5.5vw,56px)/1.1 Georgia,serif;margin:0 0 12px;overflow-wrap:break-word}
+.slide .lead{font-size:clamp(15px,2.2vw,19px)}
+.slide .btn.big{margin:0 8px 8px 0}
+@media(max-width:760px){
+ .slide{padding:40px 18px 64px;min-height:clamp(420px,calc(100svh - var(--hh) - 40px),680px)}
+ .slide img.bg{object-position:72% center}
+ .slide:after{background:rgba(25,8,20,.68)}
+ .arr{display:none}
+ .slide .btn.big{padding:11px 18px;font-size:16px}
+ .eyebrow{font-size:14px}
+}
+@media(max-height:520px) and (orientation:landscape){.slide{min-height:calc(100svh - var(--hh));padding:20px 20px 48px}.slide .lead{display:none}.slide h1,.slide h2{font-size:28px}}
+.svc{padding:0;overflow:hidden}
+.svc img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--line)}
+.svc .sb{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.svc .dis{color:var(--gold);font-size:14px;font-weight:600}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap bar2">
+  <a class="brand" href="#home">Glow Beauty Studio</a>
+  <div class="links" id="links"><a href="#home">Home</a><a href="#about">About us</a><a href="#services">Services</a><a href="#offer">Offer</a><a href="#gallery">Gallery</a><a href="#hq">Studio HQ</a></div>
+  <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="links">Menu</button>
+  <a class="bk btn sm" id="topBook" href="#hq">Book now</a>
+</div></header>
+
+<section class="hero" id="home" aria-roledescription="carousel" aria-label="Festive offers"><div class="car"><div class="track" id="track">
+<div class="slide s1" role="group" aria-roledescription="slide"><img class="bg" src="images/banner-1.jpg" alt="" ><div class="wrap sl-in"><div><p class="eyebrow">Freetown · Weddings, graduations, December parties</p><h1>Glow for the Festive Season</h1><p class="lead">Professional makeup, hair and nails for the moments you want to remember.</p><a class="bk btn big" href="#hq">Book now</a></div></div></div>
+<div class="slide s2" role="group" aria-roledescription="slide"><img class="bg" src="images/banner-2.jpg" alt="" loading="lazy" ><div class="wrap sl-in"><div><p class="eyebrow">Festive offer</p><h2>15% off December appointments</h2><p class="lead">Book any December appointment before 30 November. <b id="pubDays" class="days"></b></p><a class="bk btn big" href="#hq">Book now</a></div></div></div>
+<div class="slide s3" role="group" aria-roledescription="slide"><img class="bg" src="images/banner-3.jpg" alt="" loading="lazy" ><div class="wrap sl-in"><div><p class="eyebrow">Your look, your occasion</p><h2>Bridal, graduation and party looks</h2><p class="lead">See our services and prices, then message us on WhatsApp to pick your date.</p><a class="btn big" href="#services">See services</a> <a class="bk btn ghost light big" href="#hq">Book now</a></div></div></div>
+</div>
+<button class="arr prev" id="prev" aria-label="Previous slide">‹</button><button class="arr next" id="next" aria-label="Next slide">›</button>
+<div class="dots" id="dots"><button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button></div></div></section>
+
+<section id="about" class="pub"><div class="wrap about">
+  <div><h2>About us</h2><p class="sub">Glow Beauty Studio is a beauty studio in Freetown for women getting ready for life’s big days.</p>
+  <p>From weddings and graduations to December parties, we help you arrive feeling polished and confident. Our prices are clear, booking is simple, and every appointment is confirmed and reminded on WhatsApp.</p></div>
+  <div><img class="aboutimg" src="images/about.jpg" alt="Glow Beauty Studio makeup session" loading="lazy"><ul class="facts"><li><b>Freetown</b><span>Studio based in the city</span></li><li><b>Every occasion</b><span>Weddings, graduations, parties</span></li><li><b>WhatsApp booking</b><span>Fast replies and reminders</span></li></ul></div>
+</div></section>
+
+<section id="services" class="pub"><div class="wrap">
+  <h2>Services and prices</h2><p class="sub">Clear prices, so you know what to expect before you message us.</p>
+  <div class="svcgrid" id="pubSvc"></div>
+</div></section>
+
+<section id="offer" class="pub alt"><div class="wrap offer-in">
+  <div><h2>15% off for December</h2><p class="sub">Whether it is a wedding, a graduation or a December party, secure your slot early and save.</p></div>
+  <ul class="terms"><li>Appointment must be in December 2026</li><li>Booking must be made before 30 November</li><li>Booked through WhatsApp</li></ul>
+</div></section>
+
+<section id="gallery" class="pub"><div class="wrap">
+  <h2>Gallery</h2><p class="sub">A look at the styles our clients book most.</p>
+  <div class="gal"><figure><img src="images/gallery-1.jpg" alt="Bridal glam" loading="lazy"><figcaption>Bridal glam</figcaption></figure><figure><img src="images/gallery-2.jpg" alt="Gele and styling" loading="lazy"><figcaption>Gele and styling</figcaption></figure><figure><img src="images/gallery-3.jpg" alt="Party makeup" loading="lazy"><figcaption>Party makeup</figcaption></figure><figure><img src="images/gallery-4.jpg" alt="Gel nails" loading="lazy"><figcaption>Gel nails</figcaption></figure><figure><img src="images/gallery-5.jpg" alt="Graduation look" loading="lazy"><figcaption>Graduation look</figcaption></figure><figure><img src="images/gallery-6.jpg" alt="December party" loading="lazy"><figcaption>December party</figcaption></figure></div>
+</div></section>
+
+<section id="how" class="pub"><div class="wrap">
+  <h2>How to book</h2>
+  <ol class="steps">
+    <li><b>Message us on WhatsApp</b><span>Tap “Book now” and tell us the service you want.</span></li>
+    <li><b>Choose your date and time</b><span>We check the December diary and offer the nearest free slot.</span></li>
+    <li><b>Get your confirmation</b><span>We confirm your 15% offer and send a reminder before your appointment.</span></li>
+  </ol>
+  <a class="bk btn big" href="#hq">Book now</a>
+</div></section>
+
+<section id="hq" class="hq"><div class="wrap">
+  <h2 class="hqh">Studio HQ</h2>
+  <p class="sub">For the studio team: manage the campaign, December bookings and tasks. Everything saves in this browser.</p>
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="campaign">Campaign sheet</button>
+    <button role="tab" aria-selected="false" data-tab="bookings">Bookings tracker</button>
+    <button role="tab" aria-selected="false" data-tab="tasks">Task list</button>
+  </nav>
+<main>
+<!-- CAMPAIGN -->
+<section id="campaign">
+  <div class="card overview"><h2>Campaign overview</h2>
+    <div class="ov-grid">
+      <div><h3>Objective</h3><p>Fill the December diary with bookings made through WhatsApp.</p></div>
+      <div><h3>Audience</h3><p>Women aged 20–40 in Freetown preparing for weddings, graduations and December parties.</p></div>
+      <div><h3>Offer</h3><p>15% off any December appointment booked before 30 November.</p></div>
+      <div><h3>Challenge</h3><p>Social pages are quiet and inconsistent, and customers can’t find prices or how to book.</p></div>
+    </div>
+    <div class="ov-line">
+      <div><b>22 Oct</b><span>Campaign submitted<br><label for="dlTime" class="inl">by</label> <input id="dlTime" type="time" aria-label="Submission time"></span></div>
+      <div><b>30 Nov</b><span>Offer closes</span></div>
+      <div><b>1–31 Dec</b><span>Appointments delivered</span></div>
+    </div>
+    <p class="deliv"><strong>Deliverables:</strong> the offer, at least two services, the WhatsApp number and a “Book now” button.</p>
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="card"><h2>Studio details</h2>
+        <label for="wa">WhatsApp number (with country code)</label>
+        <input id="wa" placeholder="+232 76 123 456" inputmode="tel">
+        <p class="warn" id="waMsg"></p>
+      </div>
+      <div class="card"><h2>Services and prices</h2>
+        <div class="scroll"><table><thead><tr><th>Service</th><th>Price (Le)</th><th></th></tr></thead><tbody id="svcBody"></tbody></table></div>
+        <div class="form" style="margin-top:12px">
+          <div><label for="svcName">Service</label><input id="svcName" placeholder="e.g. Gele and styling"></div>
+          <div><label for="svcPrice">Price (Le)</label><input id="svcPrice" type="number" min="0"></div>
+          <div><label for="svcImg">Image file (optional)</label><input id="svcImg" placeholder="images/my-service.jpg"></div>
+          <button class="btn" id="addSvc">Add service</button>
+        </div>
+      </div>
+      <div class="card"><h2>Brief checklist</h2><ul class="check" id="reqList"></ul></div>
+    </div>
+
+    <div>
+      <div class="card"><h2>Post preview</h2>
+        <div class="post">
+          <h3>Glow for the Festive Season</h3>
+          <div class="big">15% off</div>
+          <div>Book any December appointment before 30 November.</div>
+          <ul id="postSvc"></ul>
+          <a class="btn" id="bookNow" target="_blank" rel="noopener">Book now</a>
+          <p style="margin:12px 0 0;color:#e9d3df" id="postWa"></p>
+        </div>
+      </div>
+      <div class="card"><h2>Caption</h2>
+        <label for="cap" class="sr">Caption text</label>
+        <textarea id="cap" rows="9" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit" readonly></textarea>
+        <p><button class="btn ghost" id="copyCap">Copy caption</button> <span id="copied" class="warn"></span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKINGS -->
+<section id="bookings" hidden>
+  <div class="stats" id="stats"></div>
+  <div class="card"><h2>Add a booking</h2>
+    <div class="form">
+      <div><label for="bName">Client name</label><input id="bName"></div>
+      <div><label for="bPhone">Client WhatsApp</label><input id="bPhone" inputmode="tel"></div>
+      <div><label for="bSvc">Service</label><select id="bSvc"></select></div>
+      <div><label for="bOcc">Occasion</label><select id="bOcc"><option>Wedding</option><option>Graduation</option><option>December party</option><option>Other</option></select></div>
+      <div><label for="bDate">Appointment date</label><input id="bDate" type="date" min="2026-12-01" max="2026-12-31"></div>
+      <div><label for="bTime">Time</label><input id="bTime" type="time"></div>
+      <div><label for="bMade">Booked on</label><input id="bMade" type="date"></div>
+      <button class="btn" id="addBk">Add booking</button>
+    </div>
+    <p class="warn" id="bkMsg"></p>
+    <p style="color:var(--mute);font-size:13px;margin:0">15% off applies when the appointment is in December and the booking is made before 30 November.</p>
+  </div>
+  <div class="card"><h2>December diary</h2>
+    <div class="filters" id="filters"></div>
+    <div class="scroll"><table><thead><tr><th>Date and time</th><th>Client</th><th>Service</th><th>Price (Le)</th><th>Offer</th><th>Status</th><th></th></tr></thead><tbody id="bkBody"></tbody></table></div>
+  </div>
+</section>
+
+<!-- TASKS -->
+<section id="tasks" hidden>
+  <div class="card"><h2>Campaign progress</h2>
+    <div id="progTxt"></div><div class="bar"><i id="prog"></i></div>
+    <div class="form">
+      <div style="grid-column:span 2"><label for="tTitle">New task</label><input id="tTitle" placeholder="e.g. Send reminder to Friday clients"></div>
+      <div><label for="tDue">Due date</label><input id="tDue" type="date"></div>
+      <div><label for="tPri">Priority</label><select id="tPri"><option>High</option><option selected>Medium</option><option>Low</option></select></div>
+      <button class="btn" id="addTask">Add task</button>
+    </div>
+  </div>
+  <div class="card"><div id="taskList"></div></div>
+</section>
+</main>
+</div></section>
+<footer class="foot"><div class="wrap foot-in">
+  <div><b class="fb">Glow Beauty Studio, Freetown</b><p>Makeup, hair and nails for weddings, graduations and December parties.</p><p id="footWa">WhatsApp: add the number in Studio HQ</p></div>
+  <div class="fl"><a href="#home">Home</a><a href="#about">About us</a><a href="#services">Services</a><a href="#offer">Offer</a><a href="#gallery">Gallery</a></div>
+  <p class="copy">© <span id="yr">2026</span> Glow Beauty Studio, Freetown. All rights reserved.</p>
+</div></footer>
+<button class="totop" id="toTop" aria-label="Scroll to top" hidden>↑</button>
+
+<script>
+const $=id=>document.getElementById(id);
+const KEY="glow-campaign-v1";
+const iso=d=>d.toISOString().slice(0,10);
+const todayISO=iso(new Date());
+const defaults={wa:"",dlTime:"",
+ services:[{n:"Bridal makeup",p:600},{n:"Gele and hairstyling",p:250},{n:"Party glam makeup",p:300},{n:"Gel manicure and pedicure",p:200}],
+ bookings:[],
+ tasks:[
+  {t:"Confirm brief and offer terms with Glow Beauty Studio",d:"2026-10-16",p:"High",x:false},
+  {t:"Collect service list and prices",d:"2026-10-16",p:"High",x:false},
+  {t:"Confirm WhatsApp number and set up greeting message",d:"2026-10-17",p:"High",x:false},
+  {t:"Draft festive post and caption with “Book now”",d:"2026-10-19",p:"Medium",x:false},
+  {t:"Get owner approval on the design",d:"2026-10-21",p:"High",x:false},
+  {t:"Submit campaign by the deadline",d:"2026-10-22",p:"High",x:false},
+  {t:"Reply to every WhatsApp enquiry within 1 hour",d:"2026-11-01",p:"Medium",x:false},
+  {t:"Send last-call reminder: offer ends 30 November",d:"2026-11-27",p:"High",x:false},
+  {t:"Send appointment reminders 2 days before each booking",d:"2026-12-01",p:"Medium",x:false}
+ ]};
+let S;
+try{S=JSON.parse(localStorage.getItem(KEY))||defaults}catch(e){S=defaults}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const le=n=>"Le "+Math.round(n).toLocaleString("en");
+const digits=()=>S.wa.replace(/\D/g,"");
+const waOK=()=>digits().length>=8;
+const STAT=["Pending","Confirmed","Reminder sent","Completed","Cancelled"];
+let filter="All";
+
+// Tabs
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x===b));
+ ["campaign","bookings","tasks"].forEach(id=>$(id).hidden=id!==b.dataset.tab);
+});
+
+// Campaign
+function renderCampaign(){
+ $("wa").value=S.wa;$("dlTime").value=S.dlTime;
+ $("waMsg").textContent=S.wa&&!waOK()?"That number looks too short.":"";
+ $("svcBody").innerHTML=S.services.map((s,i)=>`<tr><td>${esc(s.n)}</td><td>${le(s.p)}</td><td><button class="x" data-rs="${i}" aria-label="Remove ${esc(s.n)}">×</button></td></tr>`).join("")||`<tr><td colspan="3" class="empty">No services yet.</td></tr>`;
+ const hasSvc=S.services.length>=2;
+ const reqs=[["The offer: 15% off December bookings made before 30 November",true],["At least two services ("+S.services.length+" listed)",hasSvc],["The WhatsApp number"+(waOK()?" ("+esc(S.wa)+")":" – add it above"),waOK()],["“Book now” button linked to WhatsApp",waOK()],["Submit by Thursday 22 October"+(S.dlTime?" at "+S.dlTime:" – set the time in the overview"),!!S.dlTime]];
+ $("reqList").innerHTML=reqs.map(r=>`<li class="${r[1]?"ok":"no"}"><span class="m">${r[1]?"✓":"!"}</span><span>${r[0]}</span></li>`).join("");
+ $("postSvc").innerHTML=S.services.slice(0,4).map(s=>`<li>${esc(s.n)} – ${le(s.p)}</li>`).join("");
+ const msg=encodeURIComponent("Hello Glow Beauty Studio, I would like to book a December appointment with the 15% offer.");
+ $("bookNow").href=waOK()?`https://wa.me/${digits()}?text=${msg}`:"#";
+ $("postWa").textContent=waOK()?"WhatsApp: "+S.wa:"Add the WhatsApp number to complete this post.";
+ $("cap").value=`Glow for the Festive Season ✨\nWeddings, graduations, December parties: arrive glowing.\n\nBook any December appointment before 30 November and get 15% off.\n\n`+S.services.map(s=>`• ${s.n}: ${le(s.p)}`).join("\n")+`\n\nBook now on WhatsApp: ${S.wa||"[add number]"}\nGlow Beauty Studio, Freetown`;
+ renderBookingForm();
+}
+$("wa").oninput=e=>{S.wa=e.target.value;save();renderCampaign()};
+$("wa").onblur=renderCampaign;
+$("dlTime").onchange=e=>{S.dlTime=e.target.value;save();renderCampaign()};
+$("addSvc").onclick=()=>{const n=$("svcName").value.trim(),p=+$("svcPrice").value;if(!n||!(p>0))return;S.services.push({n,p,img:$("svcImg").value.trim()});$("svcName").value=$("svcPrice").value=$("svcImg").value="";save();renderCampaign();renderBookings()};
+$("svcBody").onclick=e=>{const i=e.target.dataset.rs;if(i===undefined)return;S.services.splice(i,1);save();renderCampaign()};
+$("copyCap").onclick=async()=>{try{await navigator.clipboard.writeText($("cap").value);$("copied").textContent="Caption copied."}catch(e){$("cap").select();$("copied").textContent="Press Ctrl+C to copy."}};
+
+// Bookings
+const eligible=b=>b.date.startsWith("2026-12")&&b.made<"2026-11-30";
+const priceOf=b=>b.price*(eligible(b)?.85:1);
+function renderBookingForm(){
+ $("bSvc").innerHTML=S.services.map((s,i)=>`<option value="${i}">${esc(s.n)} (${le(s.p)})</option>`).join("");
+ if(!$("bMade").value)$("bMade").value=todayISO;
+}
+$("addBk").onclick=()=>{
+ const n=$("bName").value.trim(),d=$("bDate").value,t=$("bTime").value,sv=S.services[$("bSvc").value],m=$("bMade").value||todayISO;
+ const msg=$("bkMsg");
+ if(!n||!d||!t||!sv){msg.textContent="Add the client name, service, date and time.";return}
+ if(S.bookings.some(b=>b.date===d&&b.time===t&&b.status!=="Cancelled")){msg.textContent="Clash: another client is already booked on "+d+" at "+t+".";return}
+ msg.textContent="";
+ S.bookings.push({id:Date.now(),name:n,phone:$("bPhone").value.trim(),svc:sv.n,price:sv.p,occ:$("bOcc").value,date:d,time:t,made:m,status:"Pending"});
+ $("bName").value=$("bPhone").value="";save();renderBookings();
+};
+function renderBookings(){
+ const B=S.bookings,act=B.filter(b=>b.status!=="Cancelled");
+ const rev=act.reduce((a,b)=>a+priceOf(b),0),days=new Set(act.map(b=>b.date)).size;
+ const pend=B.filter(b=>b.status==="Pending").length;
+ $("stats").innerHTML=[[act.length,"Active bookings"],[pend,"Awaiting confirmation"],[days+" / 31","December days with bookings"],[le(rev),"Expected income after offer"]].map(s=>`<div class="stat"><b>${s[0]}</b><span>${s[1]}</span></div>`).join("");
+ $("filters").innerHTML=["All",...STAT].map(f=>`<button class="btn sm ${f===filter?"":"ghost"}" data-f="${f}">${f}</button>`).join("");
+ const rows=B.filter(b=>filter==="All"||b.status===filter).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+ $("bkBody").innerHTML=rows.map(b=>`<tr><td>${b.date}<br><small>${b.time}</small></td><td>${esc(b.name)}<br><small>${esc(b.occ)}${b.phone?" · "+esc(b.phone):""}</small></td><td>${esc(b.svc)}</td><td>${le(priceOf(b))}${eligible(b)?`<br><small><s>${le(b.price)}</s></small>`:""}</td><td>${eligible(b)?'<span class="tag">15% off</span>':'<span class="tag none">Full price</span>'}</td><td><select data-st="${b.id}" aria-label="Status for ${esc(b.name)}">${STAT.map(s=>`<option${s===b.status?" selected":""}>${s}</option>`).join("")}</select></td><td><button class="x" data-rb="${b.id}" aria-label="Delete booking">×</button></td></tr>`).join("")||`<tr><td colspan="7" class="empty">No bookings here yet. Add the first one above.</td></tr>`;
+}
+$("filters").onclick=e=>{if(e.target.dataset.f){filter=e.target.dataset.f;renderBookings()}};
+$("bkBody").onchange=e=>{const id=e.target.dataset.st;if(!id)return;S.bookings.find(b=>b.id==id).status=e.target.value;save();renderBookings()};
+$("bkBody").onclick=e=>{const id=e.target.dataset.rb;if(!id)return;S.bookings=S.bookings.filter(b=>b.id!=id);save();renderBookings()};
+
+// Tasks
+const PR={High:0,Medium:1,Low:2};
+function renderTasks(){
+ const T=S.tasks,done=T.filter(t=>t.x).length;
+ $("progTxt").textContent=`${done} of ${T.length} tasks done`;
+ $("prog").style.width=(T.length?done/T.length*100:0)+"%";
+ const idx=T.map((t,i)=>i).sort((a,b)=>(T[a].x-T[b].x)||(T[a].d||"9").localeCompare(T[b].d||"9")||PR[T[a].p]-PR[T[b].p]);
+ $("taskList").innerHTML=idx.map(i=>{const t=T[i],late=!t.x&&t.d&&t.d<todayISO;return`<div class="task ${t.x?"done":""}"><input type="checkbox" data-tk="${i}" ${t.x?"checked":""} aria-label="Done: ${esc(t.t)}"><div class="t">${esc(t.t)}<small>${t.d?"Due "+t.d:"No date"} · ${t.p} priority${late?' · <span class="late">Overdue</span>':""}</small></div><button class="x" data-rt="${i}" aria-label="Delete task">×</button></div>`}).join("")||`<p class="empty">No tasks. Add one above.</p>`;
+}
+$("addTask").onclick=()=>{const t=$("tTitle").value.trim();if(!t)return;S.tasks.push({t,d:$("tDue").value,p:$("tPri").value,x:false});$("tTitle").value="";save();renderTasks()};
+$("taskList").onclick=e=>{const d=e.target.dataset;if(d.tk!==undefined){S.tasks[d.tk].x=e.target.checked}else if(d.rt!==undefined){S.tasks.splice(d.rt,1)}else return;save();renderTasks()};
+
+
+function renderSite(){
+ const m=encodeURIComponent("Hello Glow Beauty Studio, I would like to book a December appointment with the 15% offer.");
+ const wl=t=>waOK()?`https://wa.me/${digits()}?text=${encodeURIComponent(t)}`:"#hq";
+ document.querySelectorAll(".bk").forEach(a=>{a.href=wl("Hello Glow Beauty Studio, I would like to book a December appointment with the 15% offer.");if(waOK()){a.target="_blank";a.rel="noopener"}});
+ const svcImg=x=>{if(x.img)return x.img;const n=x.n.toLowerCase();return n.includes("bridal")?"images/service-bridal.jpg":n.includes("gele")||n.includes("hair")?"images/service-gele.jpg":n.includes("party")||n.includes("makeup")?"images/service-party.jpg":n.includes("nail")||n.includes("mani")||n.includes("pedi")?"images/service-nails.jpg":"images/service-default.jpg"};
+ $("pubSvc").innerHTML=S.services.map(x=>`<div class="svc"><img src="${esc(svcImg(x))}" alt="${esc(x.n)}" loading="lazy" onerror="this.onerror=null;this.src='images/service-default.jpg'"><div class="sb"><b>${esc(x.n)}</b><span class="pr">${le(x.p)}</span><span class="dis">${le(x.p*.85)} with the December offer</span><a class="btn sm" ${waOK()?'target="_blank" rel="noopener" ':''}href="${wl("Hello Glow Beauty Studio, I would like to book "+x.n+" in December with the 15% offer.")}">Book now</a></div></div>`).join("");
+ const dl=Math.ceil((new Date("2026-11-30")-new Date(todayISO))/864e5);
+ $("pubDays").textContent=dl>0?dl+" days left to book":"Offer closed";
+ $("footWa").textContent=waOK()?"WhatsApp: "+S.wa:"WhatsApp: add the number in Studio HQ";
+}
+
+// Carousel
+(function(){const tr=$("track"),dots=[...$("dots").children];let i=0,t;
+ const go=n=>{i=(n+3)%3;tr.style.transform=`translateX(-${i*100}%)`;dots.forEach((d,k)=>d.setAttribute("aria-current",k===i));};
+ const play=()=>{clearInterval(t);if(!matchMedia("(prefers-reduced-motion:reduce)").matches)t=setInterval(()=>go(i+1),5500)};
+ dots.forEach((d,k)=>d.onclick=()=>{go(k);play()});
+ $("prev").onclick=()=>{go(i-1);play()};$("next").onclick=()=>{go(i+1);play()};
+ const h=$("home");h.onmouseenter=()=>clearInterval(t);h.onmouseleave=play;h.onfocusin=()=>clearInterval(t);h.onfocusout=play;
+ let x0=null;const c=document.querySelector(".car");
+ c.addEventListener("touchstart",e=>{x0=e.touches[0].clientX},{passive:true});
+ c.addEventListener("touchend",e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(dx)>40){go(i+(dx<0?1:-1));play()}});
+ go(0);play();})();
+
+// Header nav: mobile menu and active link
+(function(){const L=$("links"),B=$("menuBtn");
+ B.onclick=()=>{const o=L.classList.toggle("open");B.setAttribute("aria-expanded",o);B.textContent=o?"Close":"Menu"};
+ L.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{L.classList.remove("open");B.setAttribute("aria-expanded",false);B.textContent="Menu"}));
+ const ids=["home","about","services","offer","gallery","hq"],links=[...L.querySelectorAll("a")];
+ const mark=()=>{let cur="home";ids.forEach(id=>{if($(id).getBoundingClientRect().top<=120)cur=id});links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+cur))};
+ addEventListener("scroll",mark,{passive:true});mark();})();
+
+// Scroll to top and footer year
+(function(){const b=$("toTop");$("yr").textContent=new Date().getFullYear();
+ const t=()=>{b.hidden=scrollY<400};addEventListener("scroll",t,{passive:true});t();
+ b.onclick=()=>scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"});})();
+const _rc=renderCampaign;renderCampaign=function(){_rc();renderSite()};
+renderCampaign();renderBookings();renderTasks();
+</script>
+</body>
+</html>
