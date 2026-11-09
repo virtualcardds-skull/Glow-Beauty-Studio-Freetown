@@ -272,25 +272,16 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
   position:relative;
   overflow:hidden;
   padding:0 !important;
-  height:clamp(420px,72vh,640px) !important;
+  height:clamp(520px,85vh,780px) !important;
   min-height:0 !important;
 }
-/* soft blurred copy of the same photo fills any space around the full image */
-.slide::before{
-  content:"";
-  position:absolute;
-  inset:-30px;
-  background:var(--bgimg) center/cover no-repeat;
-  filter:blur(28px) brightness(.75);
-  z-index:0;
-}
-/* the real photo: shown in full, never cropped */
+/* the photo covers the whole banner */
 .slide img.bg{
   position:absolute !important;
   inset:0 !important;
   width:100% !important;
   height:100% !important;
-  object-fit:contain !important;
+  object-fit:cover !important;
   object-position:center !important;
   z-index:1 !important;
 }
@@ -304,7 +295,7 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
   padding:0 20px;
 }
 @media(max-width:760px){
-  .slide{height:clamp(380px,62vh,520px) !important}
+  .slide{height:clamp(460px,75vh,640px) !important}
   .slide .lead{font-size:15px}
 }
 </style>
@@ -586,11 +577,6 @@ function renderSite(){
  $("pubDays").textContent=dl>0?dl+" days left to book":"Offer closed";
  $("footWa").textContent=waOK()?"WhatsApp: "+S.wa:"WhatsApp: add the number in Studio HQ";
 }
-
-// Banner: blurred copy of each photo fills the space around the full image
-document.querySelectorAll(".slide img.bg").forEach(im=>{
- im.parentElement.style.setProperty("--bgimg",`url("${im.getAttribute("src")}")`);
-});
 
 // Carousel
 (function(){const tr=$("track"),dots=[...$("dots").children];let i=0,t;
