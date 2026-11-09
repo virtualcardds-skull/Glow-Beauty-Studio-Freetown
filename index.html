@@ -199,14 +199,16 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 .chips .ok{color:var(--ok);border-color:var(--ok)}.chips .no{color:var(--warn);border-color:var(--warn)}
 
 /* === CUSTOM IMAGE EFFECTS === */
-/* Banner images: full display, no animation, head-safe positioning */
+/* Banner images: FULL display without cropping (prevents cutting heads) */
 .slide img.bg {
-    object-fit: cover !important;
-    object-position: top center !important; /* Prioritizes the top of the image to keep heads visible */
+    object-fit: contain !important;
+    object-position: center top !important;
+    width: 100%;
+    height: 100%;
     z-index: 0 !important;
 }
 .slide:after {
-    background: rgba(25, 8, 20, 0.35) !important; /* Lighter overlay so the image displays clearly */
+    background: rgba(25, 8, 20, 0.2) !important; /* Very light overlay so the full image is clearly visible */
     z-index: 1 !important;
 }
 .sl-in {
