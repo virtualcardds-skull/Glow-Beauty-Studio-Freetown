@@ -265,38 +265,47 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
     transform: translateY(0);
 }
 
-/* === BANNER: show full image, banner fits image exactly === */
+/* === BANNER: standard professional hero, full image always visible === */
 .slide{
-  display:block !important;
-  position:relative;
-  padding:0 !important;
-  min-height:0 !important;
-}
-/* image sits in normal flow, so the banner height = the image's own height (no cropping, no gaps) */
-.slide img.bg{
-  position:relative !important;
-  inset:auto !important;
-  display:block;
-  width:100% !important;
-  height:auto !important;
-  object-fit:fill !important;
-  object-position:center !important;
-}
-/* text now floats over the image */
-.slide>.sl-in{
-  position:absolute !important;
-  top:0; bottom:0; left:0; right:0;
-  margin:auto;
-  padding:0 20px;
   display:flex !important;
   align-items:center;
+  position:relative;
+  overflow:hidden;
+  padding:0 !important;
+  height:clamp(420px,72vh,640px) !important;
+  min-height:0 !important;
 }
-/* keep text readable on short mobile banners */
+/* soft blurred copy of the same photo fills any space around the full image */
+.slide::before{
+  content:"";
+  position:absolute;
+  inset:-30px;
+  background:var(--bgimg) center/cover no-repeat;
+  filter:blur(28px) brightness(.75);
+  z-index:0;
+}
+/* the real photo: shown in full, never cropped */
+.slide img.bg{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  z-index:1 !important;
+}
+.slide:after{z-index:2 !important}
+/* text and buttons sit on top, aligned to the site content width */
+.slide>.sl-in{
+  position:relative !important;
+  z-index:3 !important;
+  width:100%;
+  min-height:0 !important;
+  padding:0 20px;
+}
 @media(max-width:760px){
-  .slide .lead{display:none}
-  .slide h1,.slide h2{font-size:clamp(20px,6vw,28px);margin-bottom:8px}
-  .slide .btn.big{padding:8px 14px;font-size:14px}
-  .eyebrow{font-size:12px;margin-bottom:4px}
+  .slide{height:clamp(380px,62vh,520px) !important}
+  .slide .lead{font-size:15px}
 }
 </style>
 </head>
@@ -577,6 +586,11 @@ function renderSite(){
  $("pubDays").textContent=dl>0?dl+" days left to book":"Offer closed";
  $("footWa").textContent=waOK()?"WhatsApp: "+S.wa:"WhatsApp: add the number in Studio HQ";
 }
+
+// Banner: blurred copy of each photo fills the space around the full image
+document.querySelectorAll(".slide img.bg").forEach(im=>{
+ im.parentElement.style.setProperty("--bgimg",`url("${im.getAttribute("src")}")`);
+});
 
 // Carousel
 (function(){const tr=$("track"),dots=[...$("dots").children];let i=0,t;
