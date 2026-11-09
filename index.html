@@ -199,18 +199,14 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 .chips .ok{color:var(--ok);border-color:var(--ok)}.chips .no{color:var(--warn);border-color:var(--warn)}
 
 /* === CUSTOM IMAGE EFFECTS === */
-@keyframes kenburns {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.12); }
-}
+/* Banner images: full display, no animation, head-safe positioning */
 .slide img.bg {
     object-fit: cover !important;
-    object-position: center !important;
-    animation: kenburns 15s infinite alternate ease-in-out;
+    object-position: top center !important; /* Prioritizes the top of the image to keep heads visible */
     z-index: 0 !important;
 }
 .slide:after {
-    background: rgba(25, 8, 20, 0.35) !important; /* Lighter overlay to display image fully */
+    background: rgba(25, 8, 20, 0.35) !important; /* Lighter overlay so the image displays clearly */
     z-index: 1 !important;
 }
 .sl-in {
@@ -218,6 +214,7 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
     z-index: 2 !important;
 }
 
+/* Services and prices images effect */
 .svc {
     position: relative;
     overflow: hidden;
@@ -230,6 +227,7 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
     filter: brightness(1.1) saturate(1.2);
 }
 
+/* Gallery images effect */
 .gal figure {
     position: relative;
     overflow: hidden;
