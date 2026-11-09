@@ -302,6 +302,7 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 .okmsg{color:var(--ok);font-weight:600;margin:6px 0 12px}
 .okmsg:empty,.sumline:empty,#bkErr:empty{display:none}
 #sendBk{margin-top:6px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 </style>
 </head>
 <body>
@@ -353,22 +354,22 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 
 <section id="book" class="pub alt"><div class="wrap">
   <h2>Book your appointment</h2>
-  <p class="sub">Fill in your details and send your request to us on WhatsApp. We reply to confirm your slot and your 15% December offer.</p>
+  <p class="sub">Choose your service, date and time. We receive your booking straight away and confirm it with you on WhatsApp.</p>
   <div class="card">
     <div class="form">
-      <div><label for="cName">Your name</label><input id="cName" autocomplete="name"></div>
-      <div><label for="cPhone">Your phone (optional)</label><input id="cPhone" inputmode="tel" autocomplete="tel"></div>
+      <div><label for="cName">Client name</label><input id="cName" autocomplete="name"></div>
+      <div><label for="cPhone">Client WhatsApp</label><input id="cPhone" inputmode="tel" autocomplete="tel" placeholder="+232 76 123 456"></div>
       <div><label for="cSvc">Service</label><select id="cSvc"></select></div>
       <div><label for="cOcc">Occasion</label><select id="cOcc"><option>Wedding</option><option>Graduation</option><option>December party</option><option>Other</option></select></div>
       <div><label for="cDate">Appointment date</label><input id="cDate" type="date" min="2026-12-01" max="2026-12-31"></div>
       <div><label for="cTime">Time</label><input id="cTime" type="time"></div>
-      <div style="grid-column:1/-1"><label for="cNotes">Notes (optional)</label><input id="cNotes" placeholder="e.g. 2 people, need to finish by 3pm"></div>
     </div>
+    <div class="hp" aria-hidden="true"><label for="cWeb">Leave this empty</label><input id="cWeb" tabindex="-1" autocomplete="off"></div>
     <p id="bkSum" class="sumline" aria-live="polite"></p>
     <p class="warn" id="bkErr" role="alert"></p>
     <p class="okmsg" id="bkOk" aria-live="polite"></p>
-    <button class="btn big" id="sendBk" type="button">Send booking on WhatsApp</button>
-    <p style="color:var(--mute);font-size:13px;margin:12px 0 0">Your request is only a booking once we confirm it on WhatsApp.</p>
+    <button class="btn big" id="sendBk" type="button">Add booking</button>
+    <p style="color:var(--mute);font-size:13px;margin:12px 0 0">15% off applies when the appointment is in December and the booking is made before 30 November. Your booking is confirmed once we reply on WhatsApp.</p>
   </div>
 </div></section>
 
@@ -400,7 +401,8 @@ function renderSite(){
 }
 renderSite();
 
-// Customer booking form: sends the request to the studio on WhatsApp
+// Customer booking form: saved in the studio's booking tracker (falls back to WhatsApp)
+const API="/api/bookings";
 function updSum(){
  const sv=S.services[$("cSvc").value],d=$("cDate").value,box=$("bkSum");
  if(!sv){box.textContent="";return}
@@ -410,19 +412,27 @@ function updSum(){
 $("cSvc").innerHTML=S.services.map((s,i)=>`<option value="${i}">${esc(s.n)} (${le(s.p)})</option>`).join("");
 ["cSvc","cDate"].forEach(id=>$(id).addEventListener("change",updSum));
 $("pubSvc").addEventListener("click",e=>{const a=e.target.closest("a[data-svc]");if(a){$("cSvc").value=a.dataset.svc;updSum()}});
-$("sendBk").onclick=()=>{
- const n=$("cName").value.trim(),sv=S.services[$("cSvc").value],d=$("cDate").value,t=$("cTime").value;
- const err=$("bkErr"),ok=$("bkOk");err.textContent="";ok.textContent="";
+$("sendBk").onclick=async()=>{
+ const n=$("cName").value.trim(),ph=$("cPhone").value.trim(),sv=S.services[$("cSvc").value],d=$("cDate").value,t=$("cTime").value,oc=$("cOcc").value;
+ const err=$("bkErr"),ok=$("bkOk"),btn=$("sendBk");err.textContent="";ok.textContent="";
  if(!n||!sv||!d||!t){err.textContent="Please add your name, service, date and time.";return}
- if(!waOK()){err.textContent="Online booking is not available yet. Please try again soon.";return}
- const off=d.startsWith("2026-12")&&todayISO<"2026-11-30";
- const lines=["Hello Glow Beauty Studio, I would like to book:","Name: "+n,"Service: "+sv.n,"Occasion: "+$("cOcc").value,"Date: "+d,"Time: "+t];
- const ph=$("cPhone").value.trim(),nt=$("cNotes").value.trim();
- if(ph)lines.push("Phone: "+ph);
- if(nt)lines.push("Notes: "+nt);
- lines.push("Price: "+(off?le(sv.p*.85)+" (15% December offer)":le(sv.p)));
- window.open(`https://wa.me/${digits()}?text=${encodeURIComponent(lines.join("\n"))}`,"_blank","noopener");
- ok.textContent="WhatsApp is opening. Press Send there to finish. We will reply to confirm your slot.";
+ if(ph.replace(/\D/g,"").length<7){err.textContent="Please add your WhatsApp number so we can confirm.";return}
+ btn.disabled=true;btn.textContent="Sending…";
+ try{
+  const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:n,phone:ph,svc:sv.n,price:sv.p,occ:oc,date:d,time:t,website:$("cWeb").value})});
+  const j=await r.json().catch(()=>({}));
+  if(r.ok){
+   ok.textContent=`Thank you, ${n}! Your booking for ${sv.n} on ${d} at ${t} has been received. We will confirm it on WhatsApp.`;
+   $("cName").value=$("cPhone").value=$("cTime").value="";
+  }else if([400,409,429].includes(r.status)){err.textContent=j.error||"Please check your details and try again."}
+  else throw new Error("unavailable");
+ }catch(e){
+  if(waOK()){
+   const off=d.startsWith("2026-12")&&todayISO<"2026-11-30";
+   const msg=["Hello Glow Beauty Studio, I would like to book:","Name: "+n,"Service: "+sv.n,"Occasion: "+oc,"Date: "+d,"Time: "+t,"Phone: "+ph,"Price: "+(off?le(sv.p*.85)+" (15% December offer)":le(sv.p))].join("\n");
+   ok.innerHTML=`Our online booking is busy right now. Please send your request on WhatsApp instead: <a class="btn sm" target="_blank" rel="noopener" href="https://wa.me/${digits()}?text=${encodeURIComponent(msg)}">Send on WhatsApp</a>`;
+  }else err.textContent="Online booking is not available right now. Please try again soon.";
+ }finally{btn.disabled=false;btn.textContent="Add booking"}
 };
 updSum();
 
