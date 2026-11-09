@@ -199,16 +199,16 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 .chips .ok{color:var(--ok);border-color:var(--ok)}.chips .no{color:var(--warn);border-color:var(--warn)}
 
 /* === CUSTOM IMAGE EFFECTS === */
-/* Banner images: FULL display without cropping (prevents cutting heads) */
+/* Banner images: cover the banner exactly (no empty space) while keeping the full subject visible */
 .slide img.bg {
-    object-fit: contain !important;
+    object-fit: cover !important;
     object-position: center top !important;
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     z-index: 0 !important;
 }
 .slide:after {
-    background: rgba(25, 8, 20, 0.2) !important; /* Very light overlay so the full image is clearly visible */
+    background: rgba(25, 8, 20, 0.28) !important;
     z-index: 1 !important;
 }
 .sl-in {
@@ -283,7 +283,7 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 <div class="dots" id="dots"><button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button></div></div></section>
 
 <section id="about" class="pub"><div class="wrap about">
-  <div><h2>About us</h2><p class="sub">Glow Beauty Studio is a beauty studio in Freetown for women getting ready for life’s big days.</p>
+  <div><h2>About us</h2><p class="sub">Glow Beauty Studio is a beauty studio in Freetown for women getting ready for life's big days.</p>
   <p>From weddings and graduations to December parties, we help you arrive feeling polished and confident. Our prices are clear, booking is simple, and every appointment is confirmed and reminded on WhatsApp.</p></div>
   <div><img class="aboutimg" src="images/about.jpg" alt="Glow Beauty Studio makeup session" loading="lazy"><ul class="facts"><li><b>Freetown</b><span>Studio based in the city</span></li><li><b>Every occasion</b><span>Weddings, graduations, parties</span></li><li><b>WhatsApp booking</b><span>Fast replies and reminders</span></li></ul></div>
 </div></section>
@@ -306,7 +306,7 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 <section id="how" class="pub"><div class="wrap">
   <h2>How to book</h2>
   <ol class="steps">
-    <li><b>Message us on WhatsApp</b><span>Tap “Book now” and tell us the service you want.</span></li>
+    <li><b>Message us on WhatsApp</b><span>Tap "Book now" and tell us the service you want.</span></li>
     <li><b>Choose your date and time</b><span>We check the December diary and offer the nearest free slot.</span></li>
     <li><b>Get your confirmation</b><span>We confirm your 15% offer and send a reminder before your appointment.</span></li>
   </ol>
@@ -446,7 +446,7 @@ const defaults={wa:"",dlTime:"",
   {t:"Confirm brief and offer terms with Glow Beauty Studio",d:"2026-10-16",p:"High",x:false},
   {t:"Collect service list and prices",d:"2026-10-16",p:"High",x:false},
   {t:"Confirm WhatsApp number and set up greeting message",d:"2026-10-17",p:"High",x:false},
-  {t:"Draft festive post and caption with “Book now”",d:"2026-10-19",p:"Medium",x:false},
+  {t:"Draft festive post and caption with "Book now"",d:"2026-10-19",p:"Medium",x:false},
   {t:"Get owner approval on the design",d:"2026-10-21",p:"High",x:false},
   {t:"Submit campaign by the deadline",d:"2026-10-22",p:"High",x:false},
   {t:"Reply to every WhatsApp enquiry within 1 hour",d:"2026-11-01",p:"Medium",x:false},
@@ -475,7 +475,7 @@ function renderCampaign(){
  $("waMsg").textContent=S.wa&&!waOK()?"That number looks too short.":"";
  $("svcBody").innerHTML=S.services.map((s,i)=>`<tr><td>${esc(s.n)}</td><td>${le(s.p)}</td><td><button class="x" data-rs="${i}" aria-label="Remove ${esc(s.n)}">×</button></td></tr>`).join("")||`<tr><td colspan="3" class="empty">No services yet.</td></tr>`;
  const hasSvc=S.services.length>=2;
- const reqs=[["The offer: 15% off December bookings made before 30 November",true],["At least two services ("+S.services.length+" listed)",hasSvc],["The WhatsApp number"+(waOK()?" ("+esc(S.wa)+")":" – add it above"),waOK()],["“Book now” button linked to WhatsApp",waOK()],["Submit by Thursday 22 October"+(S.dlTime?" at "+S.dlTime:" – set the time in the overview"),!!S.dlTime]];
+ const reqs=[["The offer: 15% off December bookings made before 30 November",true],["At least two services ("+S.services.length+" listed)",hasSvc],["The WhatsApp number"+(waOK()?" ("+esc(S.wa)+")":" – add it above"),waOK()],[""Book now" button linked to WhatsApp",waOK()],["Submit by Thursday 22 October"+(S.dlTime?" at "+S.dlTime:" – set the time in the overview"),!!S.dlTime]];
  $("reqList").innerHTML=reqs.map(r=>`<li class="${r[1]?"ok":"no"}"><span class="m">${r[1]?"✓":"!"}</span><span>${r[0]}</span></li>`).join("");
  $("postSvc").innerHTML=S.services.slice(0,4).map(s=>`<li>${esc(s.n)} – ${le(s.p)}</li>`).join("");
  const msg=encodeURIComponent("Hello Glow Beauty Studio, I would like to book a December appointment with the 15% offer.");
@@ -589,7 +589,7 @@ function renderOverview(){
  $("fTop").textContent=top?`${top[0]} (${top[1]} ${top[1]===1?"booking":"bookings"})`:"No bookings yet";
  const pd=S.bookings.filter(b=>b.status==="Pending");
  $("fPend").textContent=pd.length?`${pd.length} ${pd.length===1?"client":"clients"}: ${pd.slice(0,3).map(b=>b.name).join(", ")}${pd.length>3?"…":""}`:"Nobody waiting";
- const c=[["Offer: 15% off December",true],[S.services.length+" services",S.services.length>=2],["WhatsApp number",waOK()],["“Book now” button",waOK()],["Deadline time set",!!S.dlTime]];
+ const c=[["Offer: 15% off December",true],[S.services.length+" services",S.services.length>=2],["WhatsApp number",waOK()],[""Book now" button",waOK()],["Deadline time set",!!S.dlTime]];
  $("mustChips").innerHTML=c.map(x=>`<span class="${x[1]?"ok":"no"}">${x[1]?"✓":"!"} ${x[0]}</span>`).join("");
 }
 $("tgt").onchange=e=>{S.targetLe=Math.max(100,+e.target.value||10000);save();renderOverview()};
