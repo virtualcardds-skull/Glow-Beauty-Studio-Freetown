@@ -197,6 +197,73 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
 .chips span{padding:4px 12px;border-radius:99px;font-size:13px;font-weight:600;border:1px solid var(--line)}
 .chips .ok{color:var(--ok);border-color:var(--ok)}.chips .no{color:var(--warn);border-color:var(--warn)}
+
+/* === CUSTOM IMAGE EFFECTS === */
+@keyframes kenburns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.12); }
+}
+.slide img.bg {
+    object-fit: cover !important;
+    object-position: center !important;
+    animation: kenburns 15s infinite alternate ease-in-out;
+    z-index: 0 !important;
+}
+.slide:after {
+    background: rgba(25, 8, 20, 0.35) !important; /* Lighter overlay to display image fully */
+    z-index: 1 !important;
+}
+.sl-in {
+    position: relative;
+    z-index: 2 !important;
+}
+
+.svc {
+    position: relative;
+    overflow: hidden;
+}
+.svc img {
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s ease;
+}
+.svc:hover img {
+    transform: scale(1.08);
+    filter: brightness(1.1) saturate(1.2);
+}
+
+.gal figure {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r);
+}
+.gal img {
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s ease;
+}
+.gal figure::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--rose);
+    opacity: 0;
+    mix-blend-mode: multiply;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+.gal figure:hover::before {
+    opacity: 0.4;
+}
+.gal figure:hover img {
+    transform: scale(1.1);
+}
+.gal figcaption {
+    z-index: 2;
+    transition: background 0.4s ease, transform 0.4s ease;
+    transform: translateY(10px);
+}
+.gal figure:hover figcaption {
+    background: linear-gradient(transparent, rgba(59, 26, 46, 0.95));
+    transform: translateY(0);
+}
 </style>
 </head>
 <body>
