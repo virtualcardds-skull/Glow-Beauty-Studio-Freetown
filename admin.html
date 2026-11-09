@@ -302,7 +302,10 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 </head>
 <body>
 <header class="site"><div class="wrap bar2"><a class="brand" href="admin.html">Glow Beauty Studio · Studio HQ</a><a class="btn sm ghost light" href="index.html">View website</a></div></header>
-<section id="hq" class="hq"><div class="wrap">
+<section id="gate" class="hq"><div class="wrap" style="max-width:420px"><div class="card"><h2>Studio HQ</h2><p class="sub">Enter the team PIN to continue.</p>
+  <label for="pin">Team PIN</label><input id="pin" type="password" autocomplete="current-password">
+  <p class="warn" id="pinMsg" role="alert"></p><button class="btn" id="pinGo" type="button">Open Studio HQ</button></div></div></section>
+<section id="hq" class="hq" hidden><div class="wrap">
   <h2 class="hqh">Studio HQ</h2>
   <p class="sub">For the studio team only: manage the campaign, December bookings and tasks. Everything saves in this browser. To change the number and services customers see on the website, edit config.js.</p>
   <nav class="tabs" role="tablist">
@@ -382,6 +385,9 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
 <section id="bookings" hidden>
   <div class="stats" id="stats"></div>
   <div class="card"><h2>Add a booking</h2>
+    <div style="margin-bottom:14px"><label for="paste">Paste a booking request from WhatsApp</label>
+      <textarea id="paste" rows="4" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit"></textarea>
+      <button class="btn ghost sm" id="fillBk" type="button" style="margin-top:6px">Fill the form below</button></div>
     <div class="form">
       <div><label for="bName">Client name</label><input id="bName"></div>
       <div><label for="bPhone">Client WhatsApp</label><input id="bPhone" inputmode="tel"></div>
@@ -396,6 +402,7 @@ header.site{padding:0;position:sticky;top:0;z-index:20}
     <p style="color:var(--mute);font-size:13px;margin:0">15% off applies when the appointment is in December and the booking is made before 30 November.</p>
   </div>
   <div class="card"><h2>December diary</h2>
+    <p style="margin:-4px 0 12px;color:var(--mute);font-size:13px"><button class="btn ghost sm" id="refreshBk" type="button">Refresh</button> <span id="lastSync"></span></p>
     <div class="filters" id="filters"></div>
     <div class="scroll"><table><thead><tr><th>Date and time</th><th>Client</th><th>Service</th><th>Price (Le)</th><th>Offer</th><th>Status</th><th></th></tr></thead><tbody id="bkBody"></tbody></table></div>
   </div>
@@ -439,7 +446,8 @@ const defaults={wa:G.wa||"",dlTime:"",
  ]};
 let S;
 try{S=JSON.parse(localStorage.getItem(KEY))||defaults}catch(e){S=defaults}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+S.bookings=[]; // bookings live on the server
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({...S,bookings:[]}))}catch(e){}};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const le=n=>"Le "+Math.round(n).toLocaleString("en");
 const digits=()=>S.wa.replace(/\D/g,"");
@@ -482,14 +490,22 @@ function renderBookingForm(){
  $("bSvc").innerHTML=S.services.map((s,i)=>`<option value="${i}">${esc(s.n)} (${le(s.p)})</option>`).join("");
  if(!$("bMade").value)$("bMade").value=todayISO;
 }
-$("addBk").onclick=()=>{
+$("addBk").onclick=async()=>{
  const n=$("bName").value.trim(),d=$("bDate").value,t=$("bTime").value,sv=S.services[$("bSvc").value],m=$("bMade").value||todayISO;
  const msg=$("bkMsg");
  if(!n||!d||!t||!sv){msg.textContent="Add the client name, service, date and time.";return}
- if(S.bookings.some(b=>b.date===d&&b.time===t&&b.status!=="Cancelled")){msg.textContent="Clash: another client is already booked on "+d+" at "+t+".";return}
- msg.textContent="";
- S.bookings.push({id:Date.now(),name:n,phone:$("bPhone").value.trim(),svc:sv.n,price:sv.p,occ:$("bOcc").value,date:d,time:t,made:m,status:"Pending"});
- $("bName").value=$("bPhone").value="";save();renderBookings();
+ msg.textContent="Saving…";
+ const r=await api("POST",{name:n,phone:$("bPhone").value.trim()||"-",svc:sv.n,price:sv.p,occ:$("bOcc").value,date:d,time:t,made:m});
+ if(!r.ok){msg.textContent=r.error;return}
+ msg.textContent="";$("bName").value=$("bPhone").value="";await loadBookings();
+};
+$("fillBk").onclick=()=>{
+ const t=$("paste").value,g=k=>{const m=t.match(new RegExp("^\\s*"+k+"\\s*:\\s*(.+)$","im"));return m?m[1].trim():""};
+ $("bName").value=g("Name");$("bPhone").value=g("Phone");
+ const sv=g("Service").toLowerCase(),i=S.services.findIndex(s=>s.n.toLowerCase()===sv);if(i>=0)$("bSvc").value=i;
+ const oc=g("Occasion").toLowerCase();[...$("bOcc").options].forEach(o=>{if(o.text.toLowerCase()===oc)$("bOcc").value=o.text});
+ $("bDate").value=g("Date");$("bTime").value=g("Time");
+ $("bkMsg").textContent=$("bName").value?"Check the details, then click Add booking.":"Could not read that message. Fill the form by hand.";
 };
 function renderBookings(){
  const B=S.bookings,act=B.filter(b=>b.status!=="Cancelled");
@@ -501,8 +517,8 @@ function renderBookings(){
  $("bkBody").innerHTML=rows.map(b=>`<tr><td>${b.date}<br><small>${b.time}</small></td><td>${esc(b.name)}<br><small>${esc(b.occ)}${b.phone?" · "+esc(b.phone):""}</small></td><td>${esc(b.svc)}</td><td>${le(priceOf(b))}${eligible(b)?`<br><small><s>${le(b.price)}</s></small>`:""}</td><td>${eligible(b)?'<span class="tag">15% off</span>':'<span class="tag none">Full price</span>'}</td><td><select data-st="${b.id}" aria-label="Status for ${esc(b.name)}">${STAT.map(s=>`<option${s===b.status?" selected":""}>${s}</option>`).join("")}</select></td><td><button class="x" data-rb="${b.id}" aria-label="Delete booking">×</button></td></tr>`).join("")||`<tr><td colspan="7" class="empty">No bookings here yet. Add the first one above.</td></tr>`;
 }
 $("filters").onclick=e=>{if(e.target.dataset.f){filter=e.target.dataset.f;renderBookings()}};
-$("bkBody").onchange=e=>{const id=e.target.dataset.st;if(!id)return;S.bookings.find(b=>b.id==id).status=e.target.value;save();renderBookings()};
-$("bkBody").onclick=e=>{const id=e.target.dataset.rb;if(!id)return;S.bookings=S.bookings.filter(b=>b.id!=id);save();renderBookings()};
+$("bkBody").onchange=async e=>{const id=e.target.dataset.st;if(!id)return;const r=await api("PATCH",{id,status:e.target.value});if(!r.ok)alert(r.error);await loadBookings()};
+$("bkBody").onclick=async e=>{const id=e.target.dataset.rb;if(!id)return;if(!confirm("Delete this booking?"))return;const r=await api("DELETE",null,id);if(!r.ok)alert(r.error);await loadBookings()};
 
 // Tasks
 const PR={High:0,Medium:1,Low:2};
@@ -542,6 +558,36 @@ $("tgt").onchange=e=>{S.targetLe=Math.max(100,+e.target.value||10000);save();ren
 {const a=renderCampaign,b=renderBookings,t=renderTasks;
 renderCampaign=function(){a();renderOverview()};renderBookings=function(){b();renderOverview()};renderTasks=function(){t();renderOverview()};}
 renderCampaign();renderBookings();renderTasks();
+
+// Booking server connection and PIN gate
+let PIN="";try{PIN=sessionStorage.getItem("glow-pin")||""}catch(e){}
+async function api(method,body,id){
+ try{
+  const r=await fetch("/api/bookings"+(id?"?id="+encodeURIComponent(id):""),{method,headers:{"Content-Type":"application/json","x-admin-pin":PIN},body:body?JSON.stringify(body):undefined});
+  const j=await r.json().catch(()=>({}));
+  return{ok:r.ok,status:r.status,error:j.error||("Error "+r.status),data:j};
+ }catch(e){return{ok:false,status:0,error:"Could not reach the booking server."}}
+}
+async function loadBookings(){
+ const r=await api("GET");
+ if(r.ok){S.bookings=r.data.bookings||[];$("lastSync").textContent="Updated "+new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}
+ else $("lastSync").textContent=r.error;
+ renderBookings();
+}
+async function unlock(p){
+ PIN=p;const r=await api("GET");
+ if(r.status===401||r.status===429){PIN="";$("pinMsg").textContent=r.error;return}
+ try{sessionStorage.setItem("glow-pin",p)}catch(e){}
+ $("gate").hidden=true;$("hq").hidden=false;
+ if(r.ok){S.bookings=r.data.bookings||[];$("lastSync").textContent="Updated "+new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}
+ else $("lastSync").textContent=r.error;
+ renderBookings();
+}
+$("pinGo").onclick=()=>unlock($("pin").value);
+$("pin").addEventListener("keydown",e=>{if(e.key==="Enter")unlock($("pin").value)});
+$("refreshBk").onclick=loadBookings;
+setInterval(()=>{if(!$("hq").hidden&&PIN)loadBookings()},60000);
+if(PIN)unlock(PIN);
 </script>
 </body>
 </html>
